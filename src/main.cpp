@@ -631,14 +631,12 @@ float MQRead(int mq_pin)
 {
   int i;
   float rs=0;
-
-  for (i=0;i<READ_SAMPLE_TIMES;i++) {
+  for (i=0;i<READ_SAMPLE_TIMES;i++) 
+  {
     rs += MQResistanceCalculation(analogRead(mq_pin));
     delay(READ_SAMPLE_INTERVAL);
   }
-
   rs = rs/READ_SAMPLE_TIMES;
-
   return rs;  
 }
 
