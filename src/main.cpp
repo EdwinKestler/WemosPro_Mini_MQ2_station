@@ -192,15 +192,16 @@ Adafruit_SSD1306 display(OLED_RESET);
 #endif
 bool New_screen_display = true;
 //*************************************************Variables de Promedio de datos sensores**********************
-#define NUMSAMPLES 5
-float HTU_Temp = 0;
-float Old_HTU_Temp = 0;
-float HTU_Hum =  0;
-float Old_HTU_Hum =  0;
+#define NUMSAMPLES    10
+float HTU_Temp =      0;
+float Old_HTU_Temp =  0;
+float HTU_Hum =       0;
+float Old_HTU_Hum =   0;
 //*************************************************VAriables de Sensor I2C HTU**********************************
 Adafruit_HTU21DF htu = Adafruit_HTU21DF();
 /************************mq2sensor************************************/
 #define INTERVAL_READ_GAS         20000
+#define INTERVAL_READ_HTU         10000
 #define INTERVAL_STATE_UPDATE     60000
 #define INTERVAL_NTP_UPDATE       6400000
 #define INTERVAL_IOTDATA_UPDATE   30000
@@ -209,6 +210,7 @@ Adafruit_HTU21DF htu = Adafruit_HTU21DF();
 
 unsigned long time_Read_Gas;
 unsigned long time_IoTDATA_Update;
+unsigned long time_Read_HTU;
 
 /************************Hardware Related Macros************************************/
 #define         MQ2PIN                       (0)     //define which analog input channel you are going to use
@@ -238,13 +240,13 @@ unsigned long time_IoTDATA_Update;
 /*****************************Globals************************************************/
 float           Ro = 0;                            //Ro is initialized to 10 kilo ohms
 
-volatile int READ_GAS_HYDROGEN = 0;
-volatile int READ_GAS_LPG = 0;
-volatile int READ_GAS_METHANE = 0;
+volatile int READ_GAS_HYDROGEN =        0;
+volatile int READ_GAS_LPG =             0;
+volatile int READ_GAS_METHANE =         0;
 volatile int READ_GAS_CARBON_MONOXIDE = 0;
-volatile int READ_GAS_ALCOHOL = 0;
-volatile int READ_GAS_SMOKE = 0;
-volatile int READ_GAS_PROPANE = 0;
+volatile int READ_GAS_ALCOHOL =         0;
+volatile int READ_GAS_SMOKE =           0;
+volatile int READ_GAS_PROPANE =         0;
 
 /****************** MQResistanceCalculation ****************************************
 Input:   raw_adc - raw value read from adc, which represents the voltage
@@ -284,11 +286,16 @@ float MQCalibration(int mq_pin)
 }
 //************************************************FSM Settings****************************************************
 #define STATE_IDLE                    0
-#define STATE_TRANSMIT_DATA           1
-#define STATE_UPDATE                  2
-#define STATE_TRANSMIT_ALARM_UPDATE   3
-#define STATE_TRANSMIT_DEVICE_UPDATE  4
-#define STATE_UPDATE_TIME             5
+#define STATE_READ_TEMPERATURE_DATA   1
+#define STATE_READ_HUMIDITY_DATA      2
+#define STATE_UPDATE_UI_SCREEN_HTU    3
+#define STATE_READ_GASES_DATA         4
+#define STATE_UPDATE_UI_SCREEN_MQ2    5
+#define STATE_TRANSMIT_DATA           6
+#define STATE_UPDATE                  7
+#define STATE_TRANSMIT_ALARM_UPDATE   8
+#define STATE_TRANSMIT_DEVICE_UPDATE  9
+#define STATE_UPDATE_TIME             10
 int fsm_state;
 
 
@@ -792,27 +799,11 @@ void loop() {
   switch(fsm_state)
   { // inciar el casw switch
     case STATE_IDLE: // hacer cuando el estado sea IDLE
-    HTU_Temp = get_SensorReading(htu.readTemperature());
     
-    if(Old_HTU_Temp != HTU_Temp)
+     if(millis() > time_Read_HTU + INTERVAL_READ_HTU)
     {
-      Old_HTU_Temp = HTU_Temp;
-      New_screen_display = true;
-    }
-    
-    HTU_Hum =  get_SensorReading(htu.readHumidity());
-    if(Old_HTU_Hum != HTU_Hum)
-    {
-      Old_HTU_Hum = HTU_Temp;
-      New_screen_display = true;  
-    }
-    
-    if(New_screen_display == true)
-    {
-      New_screen_display = false;
-      display.clearDisplay();
-      display_Msg_Screen("Humedad: " + String (HTU_Hum) + "%" , 0, 8);
-      display_Msg_Screen("Temperatura: " + String (HTU_Temp) + "*C" , 0, 0);
+      time_Read_Gas = millis();
+      fsm_state = STATE_READ_TEMPERATURE_DATA;  
     }
     
     if(millis() > time_Read_Gas + INTERVAL_READ_GAS)
@@ -861,6 +852,42 @@ void loop() {
       MQTTreconnect();
     }
     client.loop();
+    break;
+
+    case STATE_READ_TEMPERATURE_DATA:                                             //Se verifica la lectura de la temperatura en el htu
+    HTU_Temp = get_SensorReading(htu.readTemperature());
+    
+    if(Old_HTU_Temp != HTU_Temp)
+    {
+      Old_HTU_Temp = HTU_Temp;
+      New_screen_display = true;
+    }
+    fsm_state = STATE_READ_HUMIDITY_DATA;
+    break;
+
+    case STATE_READ_HUMIDITY_DATA:                                                 //Se verifica la lectura del la humedad en el htu
+    HTU_Hum =  get_SensorReading(htu.readHumidity());
+
+    if(Old_HTU_Hum != HTU_Hum)
+    {
+      Old_HTU_Hum = HTU_Temp;
+      New_screen_display = true;  
+    }
+
+    fsm_state = STATE_UPDATE_UI_SCREEN_HTU;
+    break;
+
+    case STATE_UPDATE_UI_SCREEN_HTU:                                                //Se Actuliza la pantalla del Oled si es que hubo un cambio en las lecturas
+    
+    if(New_screen_display == true)
+    {
+      New_screen_display = false;
+      display.clearDisplay();
+      display_Msg_Screen("Humedad: " + String (HTU_Hum) + "%" , 0, 8);
+      display_Msg_Screen("Temperatura: " + String (HTU_Temp) + "*C" , 0, 0);
+    }
+
+    fsm_state = STATE_IDLE;
     break;
     
     case STATE_TRANSMIT_DATA: //Si se presiono el boton
