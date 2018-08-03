@@ -406,12 +406,23 @@ void wifimanager() {
   }
 }
 
-
 //*************************************************Funcion de Inicializacion de Rutina**************************
 void setup() {
-  pinMode(beep, OUTPUT);
-  digitalWrite(beep, LOW);
-  Blanco.COff();
+  pinMode(beep, OUTPUT);                                                              //Pin mapeado a pueto D5 para hacer sonar la bocina se declara como de salida
+  digitalWrite(beep, LOW);                                                            //se inicializa el puerto D5 en estado "LOW" 
+  Blanco.COff();                                                                      //Se incializa los puertos del RGB como "LOW"
+  //-----------------------------------------------iniciar el bus I2C para los sensores y pantalla---------------
+  Wire.begin(D2 , D1);                                                                //Se mapean los puertos SDA , SCL a los pines D1 y D2
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);                                          // se incia el OLED I2C en el addr 0x3C (for the 128x32)
+  display.clearDisplay();                                                             // se limpia el buffer de  la pantalla OLED
+  delay(2000);
+  //-----------------------------------------------Configuracion de posicion y tipo de letra y color incial de la pantalla OLED para DEbug-----
+  display.setTextSize(1);                                                             //
+  display.setTextColor(WHITE);
+  display.setCursor(0,0);
+  display.println("Screen READY!");
+  display.display();
+
   Serial.begin(115200);
   Serial.println(F("")); 
   Serial.println(F("Inicializacion de programa de boton con identificacion RFID;"));
@@ -431,16 +442,7 @@ void setup() {
   delay(UInterval);
 
   Serial.println("HTU21D-F test");
-  Wire.begin(D2 , D1); // SDA , SCL
-
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3C (for the 128x32)
-  display.clearDisplay();
-  delay(2000);
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.setCursor(0,0);
-  display.println("Screen READY!");
-  display.display();
+  
 
   if (!htu.begin()) {
     Serial.println("Couldn't find HTU sensor!");
