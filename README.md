@@ -11,6 +11,20 @@ Este es un nodo sensorial basado en:
 * una caja plastica IP55 para exteriores
 * Alambre de amarre
 * una caja plastica tensparente pequeña.
+### esquematicos
+* EagleCad 9.1.2:
+    * Schematic:
+    ![Imagen de archivo .sch](/eagleCad/Schematic.png)
+    * Board:
+    ![imagen de archivo .brd](/eagleCad/Board.png)
+* link para pedido en OSHPARK:
+[OSHPARK](https://oshpark.com/shared_projects/FCERSQkG)
+* Imagenes de Board:
+    * Top:
+    ![Imagen de archivo .sch](/eagleCad/Top.png)
+    * Botom:
+    ![imagen de archivo .brd](/eagleCad/Botom.png)
+### Fotografias
 ![imagen de construccion de nodo](https://github.com/EdwinKestler/WemosPro_Mini_MQ2_station/blob/master/img/img1.jpg)
 ![imagen2 de construccion de nodo](/img/img2.jpg)
 ![imagen3 de construccion de nodo](https://github.com/EdwinKestler/WemosPro_Mini_MQ2_station/blob/master/img/img3.jpg)

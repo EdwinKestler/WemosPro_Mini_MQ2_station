@@ -1,0 +1,13 @@
+G04 Gerber job file.*
+%TF.FileFunction,JobInfo*%
+%TF.GenerationSoftware,Autodesk,EAGLE,9.1.1*%
+%TF.CreationDate,2018-08-03T17:53:41Z*%
+%TF.Part,Single*%
+%MOMM*%
+%TJ.B_Owner,Edwin Kestler <kestler@flatbox.co>*%
+%TJ.B_ID,ESP_Ambient_sensors*%
+%TJ.B_LayerNum,2*%
+%TJ.B_Thickness,1.671119*%
+%TJ.B_Size_X,27.920000*%
+%TJ.B_Size_Y,25.070000*%
+M02*
