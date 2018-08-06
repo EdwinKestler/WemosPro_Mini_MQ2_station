@@ -131,7 +131,7 @@ void mqttConnect()
   String CID (clientId + NodeID); 
   CID.toCharArray(charBuf, 30);  
   #if defined (internetS)
-    while (!!!client.connect(charBuf, "flatboxadmin", "FBx_admin2012")) 
+    while (!!!client.connect(charBuf, "user", "password")) 
     {                                //Si no se encuentra conectado al servicio intentar la conexion con las credenciales Clientid, Metodo de autenticacion y el Tokeno password
     Serial.print(F("."));                                             //imprimir una serie de puntos mientras se da la conexion al servicio
     Blanco.CFlash();
@@ -158,7 +158,7 @@ void MQTTreconnect() {
     String CID (clientId + NodeID);
     CID.toCharArray(charBuf, 30);  
      #if defined (internetS)
-     if (client.connect(charBuf, "flatboxadmin", "FBx_admin2012")) {
+     if (client.connect(charBuf, "user", "password")) {
       Serial.println(F("connected"));
      }
      #else
