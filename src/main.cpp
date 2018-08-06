@@ -2,6 +2,8 @@
   Remote smoke detection and emviroment node.
   Created by Edwin Kestler, May 29, 2018.
   Released into the public domain.
+   MITLicense View Settings.h for more info;
+  You must keep the attribution on the PCB and schematic and in the firmware files, as is
   released version 1.0 6 agosto 2018
 */
 #include <Arduino.h>
