@@ -11,16 +11,10 @@ Este es un nodo sensorial basado en:
 * una caja plastica IP55 para exteriores
 * Alambre de amarre
 * una caja plastica tensparente pequeña.
-![imagen de construccion de nodo]
-(https://github.com/EdwinKestler/WemosPro_Mini_MQ2_station/blob/master/img/img1.jpg)
-![imagen2 de construccion de nodo]
-(https://github.com/EdwinKestler/WemosPro_Mini_MQ2_station/blob/master/img/img2.jpg)
-![imagen3 de construccion de nodo]
-(https://github.com/EdwinKestler/WemosPro_Mini_MQ2_station/blob/master/img/img3.jpg)
-![imagen4 de construccion de nodo]
-(https://github.com/EdwinKestler/WemosPro_Mini_MQ2_station/blob/master/img/img4.jpg)
-![imagen5 de construccion de nodo]
-(https://github.com/EdwinKestler/WemosPro_Mini_MQ2_station/blob/master/img/img5.jpg)
-![imagen6 de construccion de nodo]
-(https://github.com/EdwinKestler/WemosPro_Mini_MQ2_station/blob/master/img/img6.jpg)
+![imagen de construccion de nodo](https://github.com/EdwinKestler/WemosPro_Mini_MQ2_station/blob/master/img/img1.jpg)
+![imagen2 de construccion de nodo](/img/img2.jpg)
+![imagen3 de construccion de nodo](https://github.com/EdwinKestler/WemosPro_Mini_MQ2_station/blob/master/img/img3.jpg)
+![imagen4 de construccion de nodo](https://github.com/EdwinKestler/WemosPro_Mini_MQ2_station/blob/master/img/img4.jpg)
+![imagen5 de construccion de nodo](https://github.com/EdwinKestler/WemosPro_Mini_MQ2_station/blob/master/img/img5.jpg)
+![imagen6 de construccion de nodo](https://github.com/EdwinKestler/WemosPro_Mini_MQ2_station/blob/master/img/img6.jpg)
 
