@@ -1,3 +1,9 @@
+/*
+  Remote smoke detection and emviroment node.
+  Created by Edwin Kestler, May 29, 2018.
+  Released into the public domain.
+  released version 1.0 6 agosto 2018
+*/
 #include <Arduino.h>
 // Librerias de ESP // MQTT/ JSON FORMAT data
 #include <ESP8266WiFi.h>                                              //Libreira de ESPCORE ARDUINO
